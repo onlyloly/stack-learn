@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>StackLearn</title>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans">
+<div id="landing-page">
+<nav class="sticky top-0 z-50 backdrop-blur-md bg-white/70 border-b border-gray-200/50 flex justify-between items-center py-4 px-8 md:px-20">
+    
+    <div class="flex items-center gap-2">
+        <img src="../static/logo.png.png" ... alt="Logo" class="h-10 w-10 object-contain">
+        <span class="text-xl font-bold text-gray-900">StackLearn</span>
+    </div>
+
+    <div class="hidden md:flex items-center gap-2 font-medium text-gray-600">
+        <a href="#" class="px-4 py-2 rounded-xl hover:bg-gray-100 hover:text-purple-600 transition">Каталог</a>
+        <a href="#" class="px-4 py-2 rounded-xl hover:bg-gray-100 hover:text-purple-600 transition">ИИ-ассистент</a>
+        <a href="#" class="px-4 py-2 rounded-xl hover:bg-gray-100 hover:text-purple-600 transition">О платформе</a>
+    </div>
+<button onclick="showProfile()" id="profile-btn-main" class="hidden bg-gray-900 text-white px-4 py-2 rounded-xl">
+    Личный кабинет
+</button>
+    <div>
+   <button onclick="openModal()">
+    Войти
+</button>
+    </div>
+</nav>
+    <header class="py-20 px-8 md:px-20 flex justify-between items-center bg-purple-100 shadow-[0_20px_50px_rgba(168,85,247,0.2)] pb-12 transition-all duration-300">
+        
+        <div class="max-w-xl">
+            <h1 class="text-6xl font-extrabold mb-6">Найди свой <span class="text-purple-600">идеальный IT-курс</span></h1>
+            <p class="text-lg text-gray-500 mb-8"> <button class="text-black px-3 py-2 rounded-xl font-bold hover:bg-purple-100 transition">
+        StackLearn
+    </button>— умный каталог курсов программирования. Больше не нужно перебирать сотни сайтов. Ваш персональный навигатор в мире IT-образования.</p>
+            <div class="flex gap-4">
+                <button class="bg-purple-600 text-white px-8 py-4 rounded-2xl font-bold hover:bg-gray-800">Найти курс →</button>
+                <button class="bg-gray-100 text-gray-900 px-8 py-4 rounded-2xl font-bold hover:bg-gray-400">Спросить ИИ</button>
+            </div>
+        </div>
+      <div class="bg-white p-6 rounded-[30px] w-full max-w-3xl shadow-2xl shadow-purple-500/10 border border-gray-100 mx-auto -mt-20">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 items-end">
+        
+        <div class="col-span-1">
+            <label class="block text-xs font-bold text-gray-400 mb-1 ml-1">Категория</label>
+            <select class="w-full bg-gray-50 p-3 rounded-2xl border border-gray-100 outline-none font-medium text-sm">
+                <option>Все категории</option>
+                <option>Frontend</option>
+                <option>Backend</option>
+                <option>DevOps</option>
+                <option>Data Science</option>
+                <option>Mobile</option>
+                <option>Кибербез</option>
+            </select>
+        </div>
+
+        <div class="col-span-1">
+            <label class="block text-xs font-bold text-gray-400 mb-1 ml-1">Уровень</label>
+            <select class="w-full bg-gray-50 p-3 rounded-2xl border border-gray-100 outline-none font-medium text-sm">
+              <option value="all">Любой уровень</option>
+              <option value="Новичок">Новичок</option>
+              <option value="Middle">Middle</option>
+            <option value="PRO">PRO</option>
+            </select>
+        </div>
+
+        <div class="col-span-1">
+            <label class="block text-xs font-bold text-gray-400 mb-1 ml-1">
+                Цена: <span id="priceValue" class="text-purple-600">55 000</span> ₽
+            </label>
+            <input type="range" id="priceRange" min="0" max="250000" step="500" value="25000" 
+                   oninput="document.getElementById('priceValue').innerText = this.value.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')"
+                   class="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-purple-600 mt-2">
+        </div>
+
+        <button class="col-span-1 bg-purple-600 text-white p-3 rounded-2xl font-bold hover:bg-purple-700 transition h-[48px]">
+            Поиск
+        </button>
+    </div>
+</div>
+    </header>
+
+    <section class="max-w-7xl mx-auto py-12 px-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm text-center">
+            <div class="text-4xl font-extrabold text-purple-600 mb-2">20+</div>
+            <div class="text-gray-500">Курсов в каталоге</div>
+        </div>
+        <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm text-center">
+            <div class="text-4xl font-extrabold text-purple-600 mb-2">25+</div>
+            <div class="text-gray-500">Партнеров</div>
+        </div>
+        <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm text-center">
+            <div class="text-4xl font-extrabold text-purple-600 mb-2">15 000+</div>
+            <div class="text-gray-500">Студентов</div>
+        </div>
+        <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm text-center">
+            <div class="text-4xl font-extrabold text-purple-600 mb-2">4.9</div>
+            <div class="text-gray-500">Средний рейтинг</div>
+        </div>
+    </div>
+</section>
+<section class="max-w-7xl mx-auto py-20 px-8">
+    <div class="text-center mb-12">
+        <h2 class="text-4xl font-bold text-gray-900">Категории курсов</h2>
+        <p class="text-gray-500 mt-2">Выберите направление и начните обучение уже сегодня</p>
+    </div>
+    
+    <div data-aos="fade-up" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition">
+            <div class="w-12 h-12 bg-blue-50 rounded-2xl mb-4"></div>
+            <h3 class="font-bold text-gray-900">Frontend</h3>
+            <p class="text-gray-400 text-sm">12 курса</p>
+        </div>
+        <div data-aos="fade-up" class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition">
+            <div class="w-12 h-12 bg-green-50 rounded-2xl mb-4"></div>
+            <h3 class="font-bold text-gray-900">Backend</h3>
+            <p class="text-gray-400 text-sm">10 курсов</p>
+        </div>
+        <div data-aos="fade-up" class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition">
+            <div class="w-12 h-12 bg-orange-50 rounded-2xl mb-4"></div>
+            <h3 class="font-bold text-gray-900">DevOps</h3>
+            <p class="text-gray-400 text-sm">7 курсов</p>
+        </div>
+        <div data-aos="fade-up" class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition">
+            <div class="w-12 h-12 bg-purple-50 rounded-2xl mb-4"></div>
+            <h3 class="font-bold text-gray-900">Data Science</h3>
+            <p class="text-gray-400 text-sm">9 курсов</p>
+        </div>
+        <div data-aos="fade-up" class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition">
+            <div class="w-12 h-12 bg-red-50 rounded-2xl mb-4"></div>
+            <h3 class="font-bold text-gray-900">Mobile</h3>
+            <p class="text-gray-400 text-sm">6 курсов</p>
+        </div>
+        <div data-aos="fade-up" class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition">
+            <div class="w-12 h-12 bg-gray-100 rounded-2xl mb-4"></div>
+            <h3 class="font-bold text-gray-900">Кибербез</h3>
+            <p class="text-gray-400 text-sm">6 курсов</p>
+        </div>
+    </div>
+</section>
+    <section class="max-w-7xl mx-auto py-20 px-8">
+        <div class="flex justify-between items-center mb-10">
+            <h2 class="text-3xl font-bold">Популярные курсы</h2>
+            <button
+    onclick="showCatalog()"
+    class="cursor-pointer text-xl hover:text-purple-600 transition"
+>
+    Все курсы →
+</button>
+</div>
+    <div id="popular-courses" class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+    <div class="bg-blue-600 text-white p-8 rounded-[40px] min-h-[380px] flex flex-col relative transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl">
+        <div>
+            <h3 class="text-4xl font-extrabold leading-none">Frontend</h3>
+            <p class="text-xl font-bold mt-2 text-white/90">React: с нуля до PRO</p>
+            <p class="text-sm text-white/70 mt-4 leading-relaxed">
+                Изучи современные технологии HTML, CSS и React для создания быстрых и красивых интерфейсов, которыми пользуются миллионы.
+            </p>
+        </div>
+        <div class="mt-auto flex justify-between items-end">
+            <div class="flex gap-4 text-sm font-semibold mb-2">
+                <span class="flex items-center gap-1.5">★ 4.9</span>
+                <span class="flex items-center gap-1.5 opacity-80 text-xs">👥 2 340</span>
+            </div>
+            <div class="bg-white/10 backdrop-blur-md border border-white/20 px-6 py-3 rounded-2xl font-black text-xl shadow-lg">
+                9 900 ₽
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-purple-600 text-white p-8 rounded-[40px] min-h-[380px] flex flex-col relative transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl">
+        <div>
+            <h3 class="text-4xl font-extrabold leading-none">Data Science</h3>
+            <p class="text-xl font-bold mt-2 text-white/90">Python: от основ до продвинутой бизнес-аналитики </p>
+            <p class="text-sm text-white/70 mt-4 leading-relaxed">
+                Научись анализировать сложные данные, строить прогнозные модели и работать с нейросетями на языке Python.
+            </p>
+        </div>
+        <div class="mt-auto flex justify-between items-end">
+            <div class="flex gap-4 text-sm font-semibold mb-2">
+                <span class="flex items-center gap-1.5">★ 4.8</span>
+                <span class="flex items-center gap-1.5 opacity-80 text-xs">👥 1 890</span>
+            </div>
+            <div class="bg-white/10 backdrop-blur-md border border-white/20 px-6 py-3 rounded-2xl font-black text-xl shadow-lg">
+                12 500 ₽
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-orange-500 text-white p-8 rounded-[40px] min-h-[380px] flex flex-col relative transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl">
+        <div>
+            <h3 class="text-4xl font-extrabold leading-none">DevOps</h3>
+            <p class="text-xl font-bold mt-2 text-white/90">Docker & Kubernetes</p>
+            <p class="text-sm text-white/70 mt-4 leading-relaxed">
+                Освой Docker, Kubernetes и инструменты автоматизации, чтобы доставлять код до серверов быстро, надежно и без ошибок.
+            </p>
+        </div>
+        <div class="mt-auto flex justify-between items-end">
+            <div class="flex gap-4 text-sm font-semibold mb-2">
+                <span class="flex items-center gap-1.5">★ 4.7</span>
+                <span class="flex items-center gap-1.5 opacity-80 text-xs">👥 1 250</span>
+            </div>
+            <div class="bg-white/10 backdrop-blur-md border border-white/20 px-6 py-3 rounded-2xl font-black text-xl shadow-lg">
+                18 900 ₽
+            </div>
+        </div>
+    </div>
+</section>
+</div> <!-- конец landing-page -->
+
+<div id="catalog-page" class="hidden min-h-screen bg-gray-50">
+
+    <nav class="sticky top-0 z-50 backdrop-blur-md bg-white/70 border-b border-gray-200/50 flex justify-between items-center py-4 px-8 md:px-20">
+        <h2 class="text-2xl font-bold">Каталог курсов</h2>
+<button onclick="showProfile()" id="profile-btn-catalog" class="hidden bg-gray-900 text-white px-4 py-2 rounded-xl">
+    Личный кабинет
+</button>
+        <button
+    onclick="showLanding()"
+    class="bg-purple-600 text-white px-5 py-2 rounded-xl font-bold hover:bg-purple-700 transition">
+    ← На главную
+</button>
+    </nav>
+
+    <div class="max-w-7xl mx-auto py-10 px-8">
+
+    <div class="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8">
+
+        <!-- ФИЛЬТРЫ -->
+
+        <aside class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm h-fit">
+
+            <h3 class="font-bold text-xl mb-5">
+                Фильтры
+            </h3>
+
+            <div class="space-y-4">
+
+                <div>
+                    <label class="block mb-2 font-medium">
+                        Категория
+                    </label>
+
+                    <select id="category-filter"
+                            onchange="applyFilters()"
+                            class="w-full border p-3 rounded-xl">
+
+                        <option value="all">Все категории</option>
+                        <option value="Frontend">Frontend</option>
+                        <option value="Backend">Backend</option>
+                        <option value="DevOps">DevOps</option>
+                        <option value="Data Science">Data Science</option>
+                        <option value="Mobile">Mobile</option>
+                        <option value="Кибербез">Кибербез</option>
+
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block mb-2 font-medium">
+                        Уровень
+                    </label>
+
+                    <select id="level-filter"
+                    onchange="applyFilters()"
+                    class="w-full border p-3 rounded-xl">
+
+                <option value="all">Любой уровень</option>
+                <option value="Новичок">Новичок</option>
+                <option value="Middle">Middle</option>
+                <option value="PRO">PRO</option>
+
+                </select>
+            </div>
+
+                <div>
+                    <label class="block mb-2 font-medium">
+                        Сортировка
+                    </label>
+
+                    <select id="sort-select"
+                            onchange="applyFilters()"
+                            class="w-full border p-3 rounded-xl">
+
+                        <option value="default">По умолчанию</option>
+                        <option value="price-asc">Сначала дешевые</option>
+                        <option value="price-desc">Сначала дорогие</option>
+
+                    </select>
+                </div>
+
+            </div>
+
+        </aside>
+
+        <!-- КАРТОЧКИ -->
+
+        <div id="courses-container"
+             class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<div id="profile-page" class="hidden min-h-screen bg-gray-50 p-10">
+
+    <div class="max-w-4xl mx-auto bg-white p-10 rounded-3xl shadow-sm border border-gray-100">
+
+        <h2 class="text-3xl font-bold mb-6">Личный кабинет</h2>
+
+        <div class="space-y-4">
+            <p><b>Имя:</b> <span id="profile-name"></span></p>
+            <p><b>Email:</b> <span id="profile-email"></span></p>
+            <p><b>Роль:</b> <span id="profile-role"></span></p>
+        </div>
+
+        <button onclick="logoutUser()"
+            class="mt-8 bg-red-500 text-white px-6 py-3 rounded-xl font-bold hover:bg-red-600">
+            Выйти
+        </button>
+
+        <button onclick="showLanding()"
+            class="mt-4 ml-2 bg-gray-200 px-6 py-3 rounded-xl font-bold">
+            На главную
+        </button>
+
+    </div>
+
+</div>
+    
+<section class="py-20 px-8 bg-gradient-to-br from-purple-500 to-indigo-600 text-white text-center">
+    <h2 class="text-4xl md:text-5xl font-extrabold mb-4">Готовы начать обучение?</h2>
+    <p class="text-lg opacity-90 mb-8 max-w-lg mx-auto">Тысячи студентов уже нашли свой идеальный курс. Присоединяйтесь!</p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button class="bg-white text-purple-700 px-8 py-4 rounded-2xl font-bold hover:bg-gray-100 transition shadow-lg">
+            Найти курс
+        </button>
+        <button class="bg-black/20 backdrop-blur-sm text-white border border-white/20 px-8 py-4 rounded-2xl font-bold hover:bg-black/30 transition">
+            Спросить ИИ
+        </button>
+    </div>
+</section>
+
+<footer class="bg-gray-900 text-gray-400 py-16 px-8 md:px-20">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+        <div>
+            <div class="text-white text-xl font-bold mb-4">StackLearn</div>
+            <p class="text-sm">Умный маркетплейс IT-курсов. Находите, сравнивайте и выбирайте лучшее обучение.</p>
+        </div>
+        <div>
+            <h4 class="text-white font-bold mb-4">Платформа</h4>
+            <ul class="space-y-2 text-sm">
+                <li><a href="#" class="hover:text-white">Каталог курсов</a></li>
+                <li><a href="#" class="hover:text-white">ИИ-ассистент</a></li>
+                <li><a href="#" class="hover:text-white">О платформе</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4 class="text-white font-bold mb-4">Категории</h4>
+            <ul class="space-y-2 text-sm">
+                <li><a href="#" class="hover:text-white">Frontend</a></li>
+                <li><a href="#" class="hover:text-white">Backend</a></li>
+                <li><a href="#" class="hover:text-white">DevOps</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4 class="text-white font-bold mb-4">Информация</h4>
+            <ul class="space-y-2 text-sm">
+                <li><a href="#" class="hover:text-white">Для провайдеров</a></li>
+                <li><a href="#" class="hover:text-white">Политика конфиденциальности</a></li>
+            </ul>
+        </div>
+    </div>
+</footer>
+<div id="login-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+
+    <div class="bg-white p-8 rounded-[40px] shadow-2xl w-full max-w-md border border-gray-100 relative">
+
+        <!-- КРЕСТИК -->
+
+        <button
+            onclick="closeModal()"
+            class="absolute top-5 right-5 text-gray-400 hover:text-black text-2xl font-bold">
+            ×
+        </button>
+
+        <!-- ФОРМА ВХОДА -->
+
+        <div id="login-form">
+
+            <h2 class="text-3xl font-black mb-2">
+                С возвращением!
+            </h2>
+
+            <p class="text-gray-500 mb-8">
+                Введите свои данные для входа
+            </p>
+
+            <form class="space-y-5">
+
+               <input
+
+                    id="login-email"
+                    type="email"
+                    placeholder="Почта"
+                    class="w-full bg-gray-50 p-4 rounded-2xl border border-gray-100 outline-none">
+
+                <input
+                    id="login-password"
+                    type="password"
+                    placeholder="Пароль"
+                    class="w-full bg-gray-50 p-4 rounded-2xl border border-gray-100 outline-none">
+
+               <button
+                type="button"
+                onclick="loginUser()"
+                class="w-full bg-purple-600 text-white p-4 rounded-2xl font-bold hover:bg-purple-700 transition">
+                Войти
+            </button>
+
+            </form>
+
+            <div class="text-center mt-6">
+
+                <p class="text-gray-500">
+                    Нет аккаунта?
+                </p>
+
+                <button
+                    onclick="showRegisterForm()"
+                    class="text-purple-600 font-bold mt-1 hover:underline">
+                    Регистрация
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- ФОРМА РЕГИСТРАЦИИ -->
+
+        <div id="register-form" class="hidden">
+
+            <h2 class="text-3xl font-black mb-2">
+                Создать аккаунт
+            </h2>
+
+            <p class="text-gray-500 mb-8">
+                Заполните данные для регистрации
+            </p>
+
+            <form class="space-y-5">
+
+                <input
+                    type="text"
+                    placeholder="Имя"
+                    class="w-full bg-gray-50 p-4 rounded-2xl border border-gray-100 outline-none">
+
+                <input
+                    id="register-email"
+                    type="email"
+                    placeholder="Почта"
+                    class="w-full bg-gray-50 p-4 rounded-2xl border border-gray-100 outline-none">
+
+                <input
+                   
+                    id="register-password"
+                    type="password"
+                    placeholder="Пароль"
+                    class="w-full bg-gray-50 p-4 rounded-2xl border border-gray-100 outline-none">
+
+                <button
+    type="button"
+    onclick="registerUser()"
+    class="w-full bg-purple-600 text-white p-4 rounded-2xl font-bold hover:bg-purple-700 transition">
+    Зарегистрироваться
+</button>
+
+            </form>
+
+            <div class="text-center mt-6">
+
+                <p class="text-gray-500">
+                    Уже есть аккаунт?
+                </p>
+
+                <button
+                    onclick="showLoginForm()"
+                    class="text-purple-600 font-bold mt-1 hover:underline">
+                    Войти
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<div
+    id="admin-panel"
+    class="hidden max-w-7xl mx-auto py-10 px-8">
+
+    <div class="bg-white rounded-3xl p-8 shadow">
+
+        <h2 class="text-3xl font-bold mb-6">
+            Панель администратора
+        </h2>
+
+        <div class="flex gap-4 flex-wrap">
+
+            <button
+                class="bg-green-600 text-white px-6 py-3 rounded-xl">
+                ➕ Добавить курс
+            </button>
+
+            <button
+                class="bg-blue-600 text-white px-6 py-3 rounded-xl">
+                ✏️ Редактировать курс
+            </button>
+
+            <button
+                class="bg-red-600 text-white px-6 py-3 rounded-xl">
+                🗑️ Удалить курс
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+  <script>
+
+AOS.init({
+    duration: 1000,
+    once: true
+});
+
+
+const modal = document.getElementById('login-modal');
+const users = [
+    {
+        name: "Админ",
+        email: "stackadminlearn@gmail.com",
+        password: "12345",
+        role: "admin"
+    }
+];
+
+let currentUser = null;
+/* ВОТ СЮДА ВСТАВЛЯЕШЬ coursesData */
+
+const coursesData = [
+
+{
+    title:"React с нуля до PRO",
+    category:"Frontend",
+    price:9900,
+    level:"Новичок",
+    description:"Изучи React, JSX, хуки и создание современных интерфейсов."
+},
+
+{
+    title:"Python для аналитики",
+    category:"Data Science",
+    price:12500,
+    level:"Новичок",
+    description:"Анализ данных и визуализация в Python."
+},
+
+{
+    title:"Node.js Backend",
+    category:"Backend",
+    price:15900,
+    level:"Middle",
+    description:"Создание REST API и работа с Express."
+},
+
+{
+    title:"Docker & Kubernetes",
+    category:"DevOps",
+    price:18900,
+    level:"PRO",
+    description:"Контейнеризация и оркестрация приложений."
+},
+
+{
+    title:"Flutter Mobile",
+    category:"Mobile",
+    price:14900,
+    level:"Middle",
+    description:"Разработка мобильных приложений на Flutter."
+},
+
+{
+    title:"Основы Кибербезопасности",
+    category:"Кибербез",
+    price:12900,
+    level:"Новичок",
+    description:"Базовые принципы защиты систем и сетей."
+},
+
+{
+    title:"Vue Master",
+    category:"Frontend",
+    price:14900,
+    level:"Middle",
+    description:"Глубокое погружение во Vue 3, Composition API и Pinia."
+},
+
+{
+    title:"Machine Learning",
+    category:"Data Science",
+    price:21900,
+    level:"PRO",
+    description:"Построение ML-моделей и работа с sklearn."
+},
+
+{
+    title:"Senior Backend",
+    category:"Backend",
+    price:27900,
+    level:"PRO",
+    description:"Микросервисы, очереди сообщений и масштабирование."
+},
+
+{
+    title:"CI/CD Pipeline",
+    category:"DevOps",
+    price:13900,
+    level:"Middle",
+    description:"Автоматизация доставки и тестирования."
+},
+
+{
+    title:"React Native",
+    category:"Mobile",
+    price:18900,
+    level:"PRO",
+    description:"Кроссплатформенная разработка под iOS и Android."
+},
+
+{
+    title:"Ethical Hacking",
+    category:"Кибербез",
+    price:24900,
+    level:"PRO",
+    description:"Поиск уязвимостей и тестирование безопасности."
+},
+
+{
+    title:"JavaScript Advanced",
+    category:"Frontend",
+    price:11900,
+    level:"Middle",
+    description:"Асинхронность, замыкания, прототипы и сложные паттерны."
+},
+
+{
+    title:"SQL для Data Science",
+    category:"Data Science",
+    price:8900,
+    level:"Новичок",
+    description:"Работа с базами данных для аналитиков."
+},
+
+{
+    title:"Django Framework",
+    category:"Backend",
+    price:13900,
+    level:"Middle",
+    description:"Создание веб-приложений на Python."
+},
+
+{
+    title:"Linux для DevOps",
+    category:"DevOps",
+    price:9900,
+    level:"Новичок",
+    description:"Работа с Linux-серверами и терминалом."
+},
+
+{
+    title:"Android Kotlin",
+    category:"Mobile",
+    price:16900,
+    level:"Middle",
+    description:"Создание Android-приложений на Kotlin."
+},
+
+{
+    title:"SOC Analyst",
+    category:"Кибербез",
+    price:21900,
+    level:"PRO",
+    description:"Мониторинг и расследование инцидентов безопасности."
+},
+
+{
+    title:"HTML & CSS Start",
+    category:"Frontend",
+    price:5900,
+    level:"Новичок",
+    description:"Верстка адаптивных сайтов с нуля."
+},
+
+{
+    title:"Deep Learning",
+    category:"Data Science",
+    price:28900,
+    level:"PRO",
+   description: "Изучите нейронные сети, компьютерное зрение и создание AI-моделей на Python."
+},
+
+{
+    title:"Spring Boot",
+    category:"Backend",
+    price:24900,
+    level:"PRO",
+    description:"Разработка корпоративных Java-приложений."
+}
+
+];
+/* ПОТОМ ИДУТ ВСЕ ФУНКЦИИ */
+
+function openModal() {
+    modal.classList.remove('hidden');
+}
+
+function closeModal() {
+
+    modal.classList.add('hidden');
+
+    showLoginForm();
+}
+function showRegisterForm() {
+
+    document.getElementById('login-form')
+        .classList.add('hidden');
+
+    document.getElementById('register-form')
+        .classList.remove('hidden');
+}
+
+function showLoginForm() {
+
+    document.getElementById('register-form')
+        .classList.add('hidden');
+
+    document.getElementById('login-form')
+        .classList.remove('hidden');
+}
+function showCatalog() {
+
+    document.getElementById('landing-page').classList.add('hidden');
+
+    document.getElementById('catalog-page').classList.remove('hidden');
+
+    applyFilters();
+}
+function renderCourses(data) {
+
+    const container = document.getElementById('courses-container');
+
+const colors = {
+    Frontend: "bg-blue-600",
+    Backend: "bg-green-600",
+    DevOps: "bg-orange-500",
+    "Data Science": "bg-purple-600",
+    Mobile: "bg-pink-500",
+    "Кибербез": "bg-gray-800"
+};
+
+    container.innerHTML = data.map(course => `
+
+        <div class="${colors[course.category]} text-white p-6 rounded-[30px] w-full max-w-[340px] min-h-[260px] flex flex-col shadow-lg hover:scale-[1.03] transition">
+
+            <div class="flex justify-between mb-4">
+
+                <span class="bg-white/20 px-3 py-1 rounded-xl text-sm">
+                    ${course.category}
+                </span>
+
+                <span class="bg-black/20 px-3 py-1 rounded-xl text-sm">
+                    ${
+                    course.level === "Новичок"
+                    ? "🟢 Новичок"
+                    : course.level === "Middle"
+                    ? "🟡 Middle"
+                    : "🔴 PRO"
+                     }
+                </span>
+
+            </div>
+
+            <h3 class="text-2xl font-bold mb-3">
+                ${course.title}
+            </h3>
+
+            <p class="text-sm text-white/80 flex-grow">
+                ${course.description}
+            </p>
+
+            <div class="mt-5 text-2xl font-black">
+                ${course.price.toLocaleString()} ₽
+            </div>
+
+        </div>
+
+    `).join('');
+}
+function applyFilters() {
+
+    let result = [...coursesData];
+
+    const category =
+        document.getElementById('category-filter').value;
+
+    const level =
+        document.getElementById('level-filter').value;
+
+    const sort =
+        document.getElementById('sort-select').value;
+
+    if (category !== 'all') {
+        result = result.filter(
+            course => course.category === category
+        );
+    }
+
+    if (level !== 'all') {
+        result = result.filter(
+            course => course.level === level
+        );
+    }
+
+    if (sort === 'price-asc') {
+        result.sort((a, b) => a.price - b.price);
+    }
+
+    if (sort === 'price-desc') {
+        result.sort((a, b) => b.price - a.price);
+    }
+
+    renderCourses(result);
+}
+function loginUser() {
+    console.log(users);
+    const email =
+        document.getElementById("login-email").value;
+
+    const password =
+        document.getElementById("login-password").value;
+
+    const user = users.find(
+        u => u.email === email &&
+             u.password === password
+    );
+
+    if (!user) {
+        alert("Неверная почта или пароль");
+        return;
+    }
+
+    currentUser = user;
+
+    alert("Добро пожаловать, " + user.name);
+
+    closeModal();
+
+    if (user.role === "admin") {
+        alert("Режим администратора активирован");
+    }
+    currentUser = user;
+
+localStorage.setItem(
+    "currentUser",
+    JSON.stringify(user)
+);
+
+updateNavbar();
+
+closeModal();
+}
+
+
+function showLanding() {
+    document.getElementById('catalog-page').classList.add('hidden');
+    document.getElementById('landing-page').classList.remove('hidden');
+
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+window.onload = function() {
+
+    const savedUser =
+        localStorage.getItem("currentUser");
+
+    if(savedUser){
+
+        currentUser = JSON.parse(savedUser);
+
+        updateNavbar();
+    }
+}
+function hideAllPages() {
+    document.getElementById('landing-page').classList.add('hidden');
+    document.getElementById('catalog-page').classList.add('hidden');
+    document.getElementById('profile-page').classList.add('hidden');
+}
+
+function showProfile() {
+    if (!currentUser) {
+        alert("Сначала войдите в аккаунт");
+        return;
+    }
+
+    hideAllPages();
+    document.getElementById('profile-page').classList.remove('hidden');
+
+    document.getElementById('profile-name').innerText = currentUser.name;
+    document.getElementById('profile-email').innerText = currentUser.email;
+    document.getElementById('profile-role').innerText = currentUser.role;
+}
+function logoutUser() {
+    currentUser = null;
+    localStorage.removeItem("currentUser");
+
+    document.getElementById("profile-btn").classList.add("hidden");
+
+    showLanding();
+}
+function updateNavbar() {
+
+    const btn1 =
+        document.getElementById("profile-btn-main");
+
+    const btn2 =
+        document.getElementById("profile-btn-catalog");
+
+    if(currentUser){
+
+        btn1.classList.remove("hidden");
+        btn2.classList.remove("hidden");
+
+        btn1.innerText = currentUser.name;
+        btn2.innerText = currentUser.name;
+
+    } else {
+
+        btn1.classList.add("hidden");
+        btn2.classList.add("hidden");
+    }
+}
+function registerUser() {
+
+    const email = document.getElementById("register-email").value;
+    const password = document.getElementById("register-password").value;
+
+    const newUser = {
+        name: "Пользователь",
+        email,
+        password,
+        role: "user"
+    };
+
+    users.push(newUser);
+
+    alert("Аккаунт создан. Теперь войдите.");
+
+    showLoginForm();
+}
+window.onload = function () {
+    const savedUser = localStorage.getItem("currentUser");
+
+    if (savedUser) {
+        currentUser = JSON.parse(savedUser);
+        updateNavbar();
+    }
+};
+</script>
+</body>
+</html>

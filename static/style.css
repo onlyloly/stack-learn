@@ -1,0 +1,28 @@
+/* Делаем плавный фон для всего сайта */
+body {
+    background: linear-gradient(135deg, #fdfdff 0%, #f3f4f6 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Центрирует всё по горизонтали */
+    min-height: 100vh;
+}
+
+/* Центрирование текста и отступы */
+.hero-section {
+    text-align: center;
+    max-width: 800px;
+    margin-top: 50px;
+}
+
+/* Красивое оформление карточек */
+.feature-card {
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
