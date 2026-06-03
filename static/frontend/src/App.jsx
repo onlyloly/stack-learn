@@ -15,6 +15,7 @@ import ProfileModal from './components/ProfileModal'
 import ChatBot from './components/ChatBot'
 
 function App() {
+  const [isChatOpen, setIsChatOpen] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isProfileOpen, setIsProfileOpen] = useState(false)
   const [modalMode, setModalMode] = useState('login')
