@@ -1,6 +1,13 @@
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from dotenv import load_dotenv
+from openai import OpenAI
+
+load_dotenv()
+
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 app = FastAPI()
 
@@ -11,11 +18,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 users = [
     {
         "name": "Админ",
-        "email": "stackadminlearn@gmail.com",
-        "password": "12345",
+        "email": "ya@gmail.com",
+        "password": "123",
         "role": "admin"
     }
 ]
@@ -30,6 +38,10 @@ class RegisterData(BaseModel):
 class LoginData(BaseModel):
     email: str
     password: str
+
+
+class ChatData(BaseModel):
+    message: str
 
 
 @app.get("/")
@@ -79,3 +91,31 @@ def login(data: LoginData):
         "success": False,
         "message": "Неверная почта или пароль"
     }
+
+
+@app.post("/api/chat")
+def chat(data: ChatData):
+    try:
+        response = client.responses.create(
+            model="gpt-5.5",
+            instructions="""
+Ты ИИ-ассистент платформы StackLearn.
+Отвечай только по теме IT-курсов, выбора направления и обучения.
+Если вопрос не по теме, скажи: "Я могу помочь только с выбором IT-курсов на StackLearn."
+Отвечай кратко, дружелюбно, на русском языке.
+            """,
+            input=data.message
+        )
+
+        return {
+            "success": True,
+            "answer": response.output_text
+        }
+
+    except Exception as error:
+        print("OPENAI ERROR:", error)
+
+        return {
+            "success": False,
+            "answer": f"Ошибка OpenAI: {error}"
+        }

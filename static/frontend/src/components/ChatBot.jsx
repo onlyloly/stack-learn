@@ -9,30 +9,9 @@ function ChatBot({ isOpen, onClose }) {
   ])
 
   const [input, setInput] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
-  function getBotAnswer(text) {
-    const question = text.toLowerCase()
-
-    if (question.includes('frontend') || question.includes('react')) {
-      return 'Для frontend рекомендую курс "React с нуля до PRO". Он подойдёт для старта в современной веб-разработке.'
-    }
-
-    if (question.includes('backend') || question.includes('node')) {
-      return 'Для backend подойдёт курс "Node.js Backend". Там изучается REST API и работа с Express.'
-    }
-
-    if (question.includes('python') || question.includes('data')) {
-      return 'Если интересны данные и аналитика, советую "Python для аналитики" или "Machine Learning".'
-    }
-
-    if (question.includes('дешев') || question.includes('цена')) {
-      return 'Самые доступные курсы можно найти через сортировку "Сначала дешёвые" в каталоге.'
-    }
-
-    return 'Я могу помочь выбрать курс по направлению: Frontend, Backend, Data Science, DevOps, Mobile или Кибербез.'
-  }
-
-  function sendMessage() {
+  async function sendMessage() {
     if (input.trim() === '') return
 
     const userMessage = {
@@ -40,13 +19,40 @@ function ChatBot({ isOpen, onClose }) {
       text: input
     }
 
-    const botMessage = {
-      role: 'bot',
-      text: getBotAnswer(input)
+    setMessages(prev => [...prev, userMessage])
+    setInput('')
+    setIsLoading(true)
+
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: input
+        })
+      })
+
+      const data = await response.json()
+
+      const botMessage = {
+        role: 'bot',
+        text: data.answer
+      }
+
+      setMessages(prev => [...prev, botMessage])
+    } catch (error) {
+      setMessages(prev => [
+        ...prev,
+        {
+          role: 'bot',
+          text: 'Ошибка подключения к серверу. Проверь, запущен ли backend.'
+        }
+      ])
     }
 
-    setMessages([...messages, userMessage, botMessage])
-    setInput('')
+    setIsLoading(false)
   }
 
   if (!isOpen) return null
@@ -80,6 +86,12 @@ function ChatBot({ isOpen, onClose }) {
             {message.text}
           </div>
         ))}
+
+        {isLoading && (
+          <div className="bg-white text-gray-500 shadow-sm max-w-[85%] p-4 rounded-2xl text-sm">
+            ИИ думает...
+          </div>
+        )}
       </div>
 
       <div className="p-4 bg-white flex gap-3">
@@ -97,7 +109,8 @@ function ChatBot({ isOpen, onClose }) {
 
         <button
           onClick={sendMessage}
-          className="bg-purple-600 text-white px-5 rounded-2xl font-bold hover:bg-purple-700"
+          disabled={isLoading}
+          className="bg-purple-600 text-white px-5 rounded-2xl font-bold hover:bg-purple-700 disabled:opacity-50"
         >
           →
         </button>
