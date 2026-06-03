@@ -3,7 +3,7 @@ const technologies = [
   'Node.js',
   'Python',
   'FastAPI',
-  'Figma',
+  'Mobile',
   'Web Design',
   'Frontend',
   'Backend',
