@@ -1,6 +1,8 @@
+import TechMarquee from './TechMarquee'
+
 function Hero() {
   return (
-    <header className="py-20 px-8 md:px-20 flex justify-between items-center bg-purple-100 shadow-[0_20px_50px_rgba(168,85,247,0.2)] pb-12 transition-all duration-300">
+    <header className="py-20 px-8 md:px-20 flex flex-col lg:flex-row justify-between items-center gap-16 bg-purple-100 shadow-[0_20px_50px_rgba(168,85,247,0.2)] pb-12 transition-all duration-300">
 
       <div className="max-w-xl">
         <h1 className="text-6xl font-extrabold mb-6">
@@ -20,18 +22,19 @@ function Hero() {
         </p>
 
         <div className="flex gap-4">
-          <button className="bg-purple-600 text-white px-8 py-4 rounded-2xl font-bold hover:bg-gray-800">
+          <button className="bg-purple-600 text-white px-8 py-4 rounded-2xl font-bold hover:bg-gray-800 transition">
             Найти курс →
           </button>
 
-          <button className="bg-gray-100 text-gray-900 px-8 py-4 rounded-2xl font-bold hover:bg-gray-400">
+          <button className="bg-gray-100 text-gray-900 px-8 py-4 rounded-2xl font-bold hover:bg-gray-400 transition">
             Спросить ИИ
           </button>
         </div>
       </div>
 
-      
-      
+      <div className="w-full max-w-2xl">
+        <TechMarquee />
+      </div>
 
     </header>
   )
