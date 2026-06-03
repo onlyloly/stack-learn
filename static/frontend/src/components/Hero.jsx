@@ -1,6 +1,6 @@
 import TechMarquee from './TechMarquee'
 
-function Hero() {
+function Hero({ openChat }) {
   return (
     <header className="py-20 px-8 md:px-20 flex flex-col lg:flex-row justify-between items-center gap-16 bg-purple-100 shadow-[0_20px_50px_rgba(168,85,247,0.2)] pb-12 transition-all duration-300">
 
@@ -26,9 +26,12 @@ function Hero() {
             Найти курс →
           </button>
 
-          <button className="bg-gray-100 text-gray-900 px-8 py-4 rounded-2xl font-bold hover:bg-gray-400 transition">
-            Спросить ИИ
-          </button>
+         <button
+  onClick={openChat}
+  className="bg-gray-100 text-gray-900 px-8 py-4 rounded-2xl font-bold hover:bg-gray-400 transition"
+>
+  Спросить ИИ
+</button>
         </div>
       </div>
 

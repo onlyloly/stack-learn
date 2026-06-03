@@ -12,6 +12,7 @@ import PopularCourses from './components/PopularCourses'
 import CTA from './components/CTA'
 import Footer from './components/Footer'
 import ProfileModal from './components/ProfileModal'
+import ChatBot from './components/ChatBot'
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -109,9 +110,10 @@ async function handleLogin(email, password) {
         openProfile={() => setIsProfileOpen(true)}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
+        openChat={() => setIsChatOpen(true)}
       />
 
-      <Hero />
+      <Hero openChat={() => setIsChatOpen(true)} />
       <Stats />
       <Categories />
       <PopularCourses />
@@ -152,6 +154,10 @@ async function handleLogin(email, password) {
       type: 'success'
     })
   }
+/>
+<ChatBot
+  isOpen={isChatOpen}
+  onClose={() => setIsChatOpen(false)}
 />
     </>
   )

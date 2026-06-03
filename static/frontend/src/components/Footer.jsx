@@ -26,11 +26,13 @@ function Footer() {
               </a>
             </li>
 
-            <li>
-              <a href="#" className="hover:text-white">
-                ИИ-ассистент
-              </a>
-            </li>
+          <button
+  type="button"
+  onClick={openChat}
+  className="px-4 py-2 rounded-xl hover:bg-gray-100 hover:text-purple-600 transition"
+>
+  ИИ-ассистент
+</button>
 
             <li>
               <a href="#" className="hover:text-white">
