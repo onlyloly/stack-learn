@@ -3,11 +3,16 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from dotenv import load_dotenv
-from openai import OpenAI
+from gigachat import GigaChat
 
 load_dotenv()
+load_dotenv()
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+gigachat = GigaChat(
+    credentials=os.getenv("GIGACHAT_CREDENTIALS"),
+    verify_ssl_certs=False
+)
+
 
 app = FastAPI()
 
@@ -96,26 +101,34 @@ def login(data: LoginData):
 @app.post("/api/chat")
 def chat(data: ChatData):
     try:
-        response = client.responses.create(
-            model="gpt-5.5",
-            instructions="""
+        prompt = f"""
 Ты ИИ-ассистент платформы StackLearn.
-Отвечай только по теме IT-курсов, выбора направления и обучения.
-Если вопрос не по теме, скажи: "Я могу помочь только с выбором IT-курсов на StackLearn."
+
+Отвечай только по теме выбора IT-курсов:
+Frontend, Backend, Data Science, DevOps, Mobile, Кибербез,
+React, JavaScript, Node.js, Python, SQL, Django, Docker, Kubernetes,
+Linux, Flutter, Kotlin, Machine Learning, Deep Learning, Cybersecurity.
+
+Если вопрос не по теме, ответь:
+"Я могу помочь только с выбором IT-курсов на StackLearn."
+
 Отвечай кратко, дружелюбно, на русском языке.
-            """,
-            input=data.message
-        )
+
+Вопрос пользователя:
+{data.message}
+"""
+
+        response = gigachat.chat(prompt)
 
         return {
             "success": True,
-            "answer": response.output_text
+            "answer": response.choices[0].message.content
         }
 
     except Exception as error:
-        print("OPENAI ERROR:", error)
+        print("GIGACHAT ERROR:", error)
 
         return {
             "success": False,
-            "answer": f"Ошибка OpenAI: {error}"
+            "answer": f"Ошибка GigaChat: {error}"
         }
