@@ -77,7 +77,7 @@ app = FastAPI(
  
 app.add_middleware(
     CORSMiddleware,
-    allow_origin_regex=r"http://(localhost|127\.0\.0\.1):\d+",
+    allow_origin_regex=r"'https://stack-learn-7mhw.onrender.com/api/chat'",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
