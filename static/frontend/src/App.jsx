@@ -106,7 +106,7 @@ const [isAdminOpen, setIsAdminOpen] = useState(false)
 
   async function handleRegister(name, email, password) {
     try {
-      const response = await fetch('https://stack-learn-7mhw.onrender.com/api/chat', {
+      const response = await fetch('https://stack-learn-7mhw.onrender.com/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password })
@@ -128,7 +128,7 @@ const [isAdminOpen, setIsAdminOpen] = useState(false)
 
   async function handleLogin(email, password) {
     try {
-      const response = await fetch('https://stack-learn-7mhw.onrender.com/api/chat', {
+      const response = await fetch('https://stack-learn-7mhw.onrender.com/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
