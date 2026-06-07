@@ -74,7 +74,7 @@ export default function ChatBot({ isOpen = false, onClose }: ChatBotProps) {
     setLoading(true)
 
     try {
-      const response = await fetch('https://stack-learn-7mhw.onrender.com', {
+      const response = await fetch('https://stack-learn-7mhw.onrender.com/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

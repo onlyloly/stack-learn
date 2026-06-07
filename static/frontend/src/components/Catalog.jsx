@@ -52,7 +52,7 @@ function Catalog({ coursesList, favoriteCourses, toggleFavorite, searchQuery, se
     }
   }
 
-let filteredCourses = [...coursesList]
+  let filteredCourses = [...coursesList]
 
   if (selectedCategories.length > 0) {
     filteredCourses = filteredCourses.filter(course =>
@@ -101,7 +101,7 @@ let filteredCourses = [...coursesList]
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-8 items-start">
         <aside className="bg-white p-6 rounded-[30px] border border-gray-100 shadow-xl shadow-purple-500/10 h-fit">
           <div className="flex justify-between items-center mb-5">
             <h3 className="font-bold text-xl">
@@ -213,32 +213,32 @@ let filteredCourses = [...coursesList]
         </aside>
 
         {filteredCourses.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 items-start auto-rows-max">
             {filteredCourses.map(course => (
               <div
                 data-aos="fade-up"
                 key={course.title}
-                className={`${colors[course.category]} text-white p-6 rounded-[30px] min-h-[300px] shadow-lg hover:scale-[1.03] hover:shadow-2xl transition-all duration-300 cursor-pointer flex flex-col`}
+                className={`${colors[course.category] || 'bg-gray-800'} text-white p-6 rounded-[30px] h-[360px] shadow-lg hover:scale-[1.03] hover:shadow-2xl transition-all duration-300 cursor-pointer flex flex-col self-start overflow-hidden`}
               >
-                <div className="flex justify-between mb-4">
-                  <span className="bg-white/20 px-3 py-1 rounded-xl text-sm">
+                <div className="flex justify-between mb-4 gap-2">
+                  <span className="bg-white/20 px-3 py-1 rounded-xl text-sm truncate max-w-[60%]">
                     {course.category}
                   </span>
 
-                  <span className="bg-black/20 px-3 py-1 rounded-xl text-sm">
+                  <span className="bg-black/20 px-3 py-1 rounded-xl text-sm shrink-0">
                     {course.level}
                   </span>
                 </div>
 
-                <h3 className="text-2xl font-bold mb-3">
+                <h3 className="text-2xl font-bold mb-3 line-clamp-2">
                   {course.title}
                 </h3>
 
-                <p className="text-sm text-white/80 flex-grow">
+                <p className="text-sm text-white/80 flex-grow line-clamp-3">
                   {course.description}
                 </p>
 
-                <div className="mt-5 text-2xl font-black">
+                <div className="mt-4 text-2xl font-black">
                   {course.price.toLocaleString()} ₽
                 </div>
 
@@ -250,7 +250,7 @@ let filteredCourses = [...coursesList]
                 <button
                   type="button"
                   onClick={() => toggleFavorite(course.title)}
-                  className={`mt-5 px-4 py-3 rounded-2xl font-bold transition w-fit ${
+                  className={`mt-4 px-4 py-3 rounded-2xl font-bold transition w-fit ${
                     favoriteCourses.includes(course.title)
                       ? 'bg-red-500 text-white hover:bg-red-600'
                       : 'bg-white/20 text-white hover:bg-white/30'
