@@ -1,201 +1,276 @@
+export const categories = [
+  { id: 'all', label: 'Все курсы', icon: '🎯' },
+  { id: 'Frontend', label: 'Frontend', icon: '🎨' },
+  { id: 'Backend', label: 'Backend', icon: '⚙️' },
+  { id: 'Data Science', label: 'Data Science', icon: '📊' },
+  { id: 'DevOps', label: 'DevOps', icon: '🚀' },
+  { id: 'Mobile', label: 'Mobile', icon: '📱' },
+  { id: 'Cybersecurity', label: 'Cybersecurity', icon: '🛡️' }
+]
+
+export const levels = [
+  { id: 'all', label: 'Все уровни' },
+  { id: 'Новичок', label: 'Новичок' },
+  { id: 'Middle', label: 'Middle' },
+  { id: 'PRO', label: 'PRO' }
+]
+
 export const courses = [
   {
-    title: "React с нуля до PRO",
-    category: "Frontend",
-    price: 9900,
-    level: "Новичок",
+    title: 'React с нуля',
+    category: 'Frontend',
+    price: 7900,
+    oldPrice: 12900,
+    level: 'Новичок',
     rating: 4.9,
-    students: 2340,
-    description: "Изучи React, JSX, хуки и создание современных интерфейсов."
+    students: 18420,
+    duration: '40 ч',
+    badge: 'Хит',
+    instructor: 'Алексей Иванов',
+    tags: ['React', 'HTML', 'CSS'],
+    description: 'Изучение React с нуля и создание современных интерфейсов.'
   },
-
   {
-    title: "Python для аналитики",
-    category: "Data Science",
-    price: 12500,
-    level: "Новичок",
-    rating: 4.8,
-    students: 1890,
-    description: "Анализ данных и визуализация в Python."
-  },
-
-  {
-    title: "Node.js Backend",
-    category: "Backend",
-    price: 15900,
-    level: "Middle",
-    rating: 4.7,
-    students: 1420,
-    description: "Создание REST API и работа с Express."
-  },
-
-  {
-    title: "Docker & Kubernetes",
-    category: "DevOps",
-    price: 18900,
-    level: "PRO",
-    rating: 4.7,
-    students: 1250,
-    description: "Контейнеризация и оркестрация приложений."
-  },
-
-  {
-    title: "Flutter Mobile",
-    category: "Mobile",
-    price: 14900,
-    level: "Middle",
-    rating: 4.6,
-    students: 980,
-    description: "Разработка мобильных приложений на Flutter."
-  },
-
-  {
-    title: "Основы Кибербезопасности",
-    category: "Кибербез",
-    price: 12900,
-    level: "Новичок",
-    rating: 4.8,
-    students: 1160,
-    description: "Базовые принципы защиты систем и сетей."
-  },
-
-  {
-    title: "Vue Master",
-    category: "Frontend",
-    price: 14900,
-    level: "Middle",
-    rating: 4.7,
-    students: 1340,
-    description: "Глубокое погружение во Vue 3, Composition API и Pinia."
-  },
-
-  {
-    title: "Machine Learning",
-    category: "Data Science",
-    price: 21900,
-    level: "PRO",
-    rating: 4.9,
-    students: 1760,
-    description: "Построение ML-моделей и работа с sklearn."
-  },
-
-  {
-    title: "Senior Backend",
-    category: "Backend",
-    price: 27900,
-    level: "PRO",
-    rating: 4.8,
-    students: 870,
-    description: "Микросервисы, очереди сообщений и масштабирование."
-  },
-
-  {
-    title: "CI/CD Pipeline",
-    category: "DevOps",
-    price: 13900,
-    level: "Middle",
-    rating: 4.6,
-    students: 910,
-    description: "Автоматизация доставки и тестирования."
-  },
-
-  {
-    title: "React Native",
-    category: "Mobile",
-    price: 18900,
-    level: "PRO",
-    rating: 4.7,
-    students: 1040,
-    description: "Кроссплатформенная разработка под iOS и Android."
-  },
-
-  {
-    title: "Ethical Hacking",
-    category: "Кибербез",
-    price: 24900,
-    level: "PRO",
-    rating: 4.9,
-    students: 1320,
-    description: "Поиск уязвимостей и тестирование безопасности."
-  },
-
-  {
-    title: "JavaScript Advanced",
-    category: "Frontend",
-    price: 11900,
-    level: "Middle",
-    rating: 4.8,
-    students: 2100,
-    description: "Асинхронность, замыкания, прототипы и сложные паттерны."
-  },
-
-  {
-    title: "SQL для Data Science",
-    category: "Data Science",
+    title: 'TypeScript для Frontend',
+    category: 'Frontend',
     price: 8900,
-    level: "Новичок",
-    rating: 4.6,
-    students: 1510,
-    description: "Работа с базами данных для аналитиков."
-  },
-
-  {
-    title: "Django Framework",
-    category: "Backend",
-    price: 13900,
-    level: "Middle",
-    rating: 4.7,
-    students: 1190,
-    description: "Создание веб-приложений на Python."
-  },
-
-  {
-    title: "Linux для DevOps",
-    category: "DevOps",
-    price: 9900,
-    level: "Новичок",
-    rating: 4.6,
-    students: 1680,
-    description: "Работа с Linux-серверами и терминалом."
-  },
-
-  {
-    title: "Android Kotlin",
-    category: "Mobile",
-    price: 16900,
-    level: "Middle",
-    rating: 4.7,
-    students: 970,
-    description: "Создание Android-приложений на Kotlin."
-  },
-
-  {
-    title: "SOC Analyst",
-    category: "Кибербез",
-    price: 21900,
-    level: "PRO",
+    oldPrice: 14900,
+    level: 'Middle',
     rating: 4.8,
-    students: 760,
-    description: "Мониторинг и расследование инцидентов безопасности."
+    students: 11200,
+    duration: '36 ч',
+    badge: 'Новый',
+    instructor: 'Мария Козлова',
+    tags: ['TypeScript', 'React', 'SPA'],
+    description: 'Продвинутая разработка интерфейсов на TypeScript.'
+  },
+  {
+    title: 'Frontend Architect',
+    category: 'Frontend',
+    price: 12900,
+    oldPrice: 19900,
+    level: 'PRO',
+    rating: 4.9,
+    students: 5140,
+    duration: '64 ч',
+    badge: 'PRO',
+    instructor: 'Игорь Волков',
+    tags: ['React', 'Next.js', 'Architecture'],
+    description: 'Архитектура крупных React-приложений.'
   },
 
   {
-    title: "HTML & CSS Start",
-    category: "Frontend",
+    title: 'Node.js & Express',
+    category: 'Backend',
+    price: 6500,
+    oldPrice: 10900,
+    level: 'Новичок',
+    rating: 4.7,
+    students: 15670,
+    duration: '36 ч',
+    badge: null,
+    instructor: 'Кирилл Захаров',
+    tags: ['Node.js', 'Express', 'MongoDB'],
+    description: 'Основы серверной разработки.'
+  },
+  {
+    title: 'FastAPI Production',
+    category: 'Backend',
+    price: 7900,
+    oldPrice: 12900,
+    level: 'Middle',
+    rating: 4.9,
+    students: 7230,
+    duration: '40 ч',
+    badge: 'Топ',
+    instructor: 'Дмитрий Смирнов',
+    tags: ['Python', 'FastAPI', 'API'],
+    description: 'Разработка production-ready REST API.'
+  },
+  {
+    title: 'Микросервисы на Python',
+    category: 'Backend',
+    price: 11900,
+    oldPrice: 17900,
+    level: 'PRO',
+    rating: 4.9,
+    students: 4200,
+    duration: '58 ч',
+    badge: 'PRO',
+    instructor: 'Артём Соловьев',
+    tags: ['FastAPI', 'PostgreSQL', 'Microservices'],
+    description: 'Создание масштабируемых микросервисов.'
+  },
+
+  {
+    title: 'Python для Data Science',
+    category: 'Data Science',
+    price: 9900,
+    oldPrice: 16900,
+    level: 'Новичок',
+    rating: 4.7,
+    students: 24100,
+    duration: '56 ч',
+    badge: 'Хит',
+    instructor: 'Ольга Петрова',
+    tags: ['Python', 'Pandas', 'ML'],
+    description: 'Анализ данных и машинное обучение.'
+  },
+  {
+    title: 'Анализ данных с Pandas',
+    category: 'Data Science',
+    price: 7900,
+    oldPrice: 12900,
+    level: 'Middle',
+    rating: 4.8,
+    students: 9300,
+    duration: '40 ч',
+    badge: null,
+    instructor: 'Елена Морозова',
+    tags: ['Pandas', 'NumPy', 'Visualization'],
+    description: 'Практический анализ данных.'
+  },
+  {
+    title: 'Machine Learning Engineer',
+    category: 'Data Science',
+    price: 13900,
+    oldPrice: 21900,
+    level: 'PRO',
+    rating: 4.9,
+    students: 5100,
+    duration: '72 ч',
+    badge: 'Топ',
+    instructor: 'Ольга Петрова',
+    tags: ['ML', 'Scikit-learn', 'Deep Learning'],
+    description: 'Построение ML-систем.'
+  },
+
+  {
+    title: 'Linux для DevOps',
+    category: 'DevOps',
     price: 5900,
-    level: "Новичок",
+    oldPrice: 9900,
+    level: 'Новичок',
+    rating: 4.7,
+    students: 12400,
+    duration: '28 ч',
+    badge: null,
+    instructor: 'Сергей Николаев',
+    tags: ['Linux', 'Terminal', 'Servers'],
+    description: 'Основы Linux для DevOps.'
+  },
+  {
+    title: 'Docker & Kubernetes',
+    category: 'DevOps',
+    price: 8500,
+    oldPrice: 13900,
+    level: 'Middle',
+    rating: 4.8,
+    students: 11230,
+    duration: '44 ч',
+    badge: null,
+    instructor: 'Сергей Николаев',
+    tags: ['Docker', 'K8s', 'CI/CD'],
+    description: 'Контейнеризация и DevOps-практики.'
+  },
+  {
+    title: 'DevOps Engineer PRO',
+    category: 'DevOps',
+    price: 14900,
+    oldPrice: 22900,
+    level: 'PRO',
     rating: 4.9,
-    students: 3250,
-    description: "Верстка адаптивных сайтов с нуля."
+    students: 3800,
+    duration: '68 ч',
+    badge: 'PRO',
+    instructor: 'Максим Фролов',
+    tags: ['Kubernetes', 'Terraform', 'AWS'],
+    description: 'Полный стек современного DevOps.'
   },
 
   {
-    title: "Deep Learning",
-    category: "Data Science",
-    price: 28900,
-    level: "PRO",
+    title: 'Flutter с нуля',
+    category: 'Mobile',
+    price: 7500,
+    oldPrice: 12500,
+    level: 'Новичок',
+    rating: 4.6,
+    students: 6780,
+    duration: '38 ч',
+    badge: 'Новый',
+    instructor: 'Анна Воронова',
+    tags: ['Flutter', 'Dart', 'Firebase'],
+    description: 'Мобильные приложения для iOS и Android.'
+  },
+  {
+    title: 'Flutter Advanced',
+    category: 'Mobile',
+    price: 8900,
+    oldPrice: 13900,
+    level: 'Middle',
+    rating: 4.8,
+    students: 5700,
+    duration: '42 ч',
+    badge: null,
+    instructor: 'Анна Воронова',
+    tags: ['Flutter', 'API', 'State'],
+    description: 'Продвинутая мобильная разработка.'
+  },
+  {
+    title: 'Mobile Developer PRO',
+    category: 'Mobile',
+    price: 12900,
+    oldPrice: 18900,
+    level: 'PRO',
     rating: 4.9,
-    students: 940,
-    description: "Изучите нейронные сети, компьютерное зрение и создание AI-моделей на Python."
+    students: 3100,
+    duration: '60 ч',
+    badge: 'PRO',
+    instructor: 'Александр Беляев',
+    tags: ['Flutter', 'Architecture', 'Firebase'],
+    description: 'Разработка крупных мобильных приложений.'
+  },
+
+  {
+    title: 'Основы кибербезопасности',
+    category: 'Cybersecurity',
+    price: 6900,
+    oldPrice: 10900,
+    level: 'Новичок',
+    rating: 4.8,
+    students: 8400,
+    duration: '34 ч',
+    badge: 'Новый',
+    instructor: 'Павел Кузнецов',
+    tags: ['Security', 'Networks', 'OWASP'],
+    description: 'Основы защиты информации.'
+  },
+  {
+    title: 'Pentest и анализ уязвимостей',
+    category: 'Cybersecurity',
+    price: 9900,
+    oldPrice: 14900,
+    level: 'Middle',
+    rating: 4.8,
+    students: 6200,
+    duration: '46 ч',
+    badge: null,
+    instructor: 'Илья Воронов',
+    tags: ['Pentest', 'Burp Suite', 'OWASP'],
+    description: 'Практическое тестирование безопасности.'
+  },
+  {
+    title: 'Этичный хакинг',
+    category: 'Cybersecurity',
+    price: 11900,
+    oldPrice: 18900,
+    level: 'PRO',
+    rating: 4.9,
+    students: 4320,
+    duration: '60 ч',
+    badge: 'Топ',
+    instructor: 'Павел Кузнецов',
+    tags: ['Pentest', 'CTF', 'OWASP'],
+    description: 'Поиск уязвимостей и аудит безопасности.'
   }
 ]

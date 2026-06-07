@@ -1,13 +1,6 @@
 import { useState } from 'react'
 import logo from '../assets/logo.png.png'
-
-function Navbar({
-  openModal,
-  currentUser,
-  openProfile,
-  searchQuery,
-  setSearchQuery
-}) {
+function Navbar({ openModal, currentUser, openProfile, searchQuery, setSearchQuery, openChat, openAbout, openAdmin }) {
   const [isSearchOpen, setIsSearchOpen] = useState(false)
 
   function openSearch() {
@@ -51,12 +44,13 @@ function Navbar({
           Поиск
         </button>
 
-        <a
-          href="#"
-          className="px-4 py-2 rounded-xl hover:bg-gray-100 hover:text-purple-600 transition"
-        >
-          О платформе
-        </a>
+      <button
+  type="button"
+  onClick={openAbout}
+  className="px-4 py-2 rounded-xl hover:bg-gray-100 hover:text-purple-600 transition"
+>
+  О платформе
+</button>
       </div>
 
       <div className="flex items-center gap-3">
@@ -69,14 +63,25 @@ function Navbar({
           />
         )}
 
-        {currentUser ? (
-          <button
-            onClick={openProfile}
-            className="bg-gray-900 text-white px-4 py-2 rounded-xl hover:bg-purple-700 transition"
-          >
-            Личный кабинет
-          </button>
-        ) : (
+       {currentUser ? (
+  <>
+    {currentUser.role === 'admin' && (
+      <button
+        onClick={openAdmin}
+        className="bg-purple-100 text-purple-700 px-4 py-2 rounded-xl font-bold hover:bg-purple-200 transition"
+      >
+        Админ-панель
+      </button>
+    )}
+
+    <button
+      onClick={openProfile}
+      className="bg-gray-900 text-white px-4 py-2 rounded-xl hover:bg-purple-700 transition"
+    >
+      Личный кабинет
+    </button>
+  </>
+) : (
           <button
             onClick={openModal}
             className="bg-purple-600 text-white px-4 py-2 rounded-xl hover:bg-purple-700"

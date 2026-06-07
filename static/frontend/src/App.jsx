@@ -13,8 +13,11 @@ import CTA from './components/CTA'
 import Footer from './components/Footer'
 import ProfileModal from './components/ProfileModal'
 import ChatBot from './components/ChatBot'
-
+import AboutModal from './components/AboutModal'
+import { courses } from './data/courses'
+import AdminPanel from './components/AdminPanel'
 function App() {
+  const [isAboutOpen, setIsAboutOpen] = useState(false)
   const [isChatOpen, setIsChatOpen] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isProfileOpen, setIsProfileOpen] = useState(false)
@@ -22,10 +25,21 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null)
   const [favoriteCourses, setFavoriteCourses] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
-  const [toast, setToast] = useState({
-  message: '',
-  type: 'success'
+  const [coursesList, setCoursesList] = useState(() => {
+  const savedCourses = localStorage.getItem('stacklearn_courses')
+
+  if (savedCourses) {
+    return JSON.parse(savedCourses)
+  }
+
+  return courses
 })
+
+const [isAdminOpen, setIsAdminOpen] = useState(false)
+  const [toast, setToast] = useState({
+    message: '',
+    type: 'success'
+  })
 
   useEffect(() => {
     AOS.init({
@@ -33,13 +47,36 @@ function App() {
       once: true
     })
   }, [])
-function showToast(message, type = 'success') {
-  setToast({ message, type })
+  useEffect(() => {
+  localStorage.setItem('stacklearn_courses', JSON.stringify(coursesList))
+}, [coursesList])
 
-  setTimeout(() => {
-    setToast({ message: '', type: 'success' })
-  }, 3000)
-}
+  function showToast(message, type = 'success') {
+    setToast({ message, type })
+
+    setTimeout(() => {
+      setToast({ message: '', type: 'success' })
+    }, 3000)
+  }
+
+  function getErrorMessage(data, fallback) {
+    const detail = data?.detail
+
+    if (typeof detail === 'string') {
+      return detail
+    }
+
+    if (Array.isArray(detail)) {
+      return detail[0]?.msg || fallback
+    }
+
+    if (detail?.msg) {
+      return detail.msg
+    }
+
+    return data?.message || fallback
+  }
+
   function openLoginModal() {
     setModalMode('login')
     setIsModalOpen(true)
@@ -54,7 +91,7 @@ function showToast(message, type = 'success') {
 
   function toggleFavorite(courseTitle) {
     if (!currentUser) {
-    showToast('Сначала войдите в аккаунт', 'error')
+      showToast('Сначала войдите в аккаунт', 'error')
       return
     }
 
@@ -68,66 +105,84 @@ function showToast(message, type = 'success') {
   }
 
   async function handleRegister(name, email, password) {
-    const response = await fetch('http://127.0.0.1:8000/api/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, password })
-    })
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password })
+      })
 
-    const data = await response.json()
-   showToast(data.message, data.success ? 'success' : 'error')
+      const data = await response.json()
 
-    if (data.success) {
+      if (!response.ok) {
+        showToast(getErrorMessage(data, 'Ошибка регистрации'), 'error')
+        return
+      }
+
+      showToast(data.message || 'Аккаунт создан. Теперь войдите.', 'success')
       setModalMode('login')
+    } catch (error) {
+      showToast('Не удалось подключиться к серверу', 'error')
     }
   }
 
-async function handleLogin(email, password) {
-  const response = await fetch('http://127.0.0.1:8000/api/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password })
-  })
+  async function handleLogin(email, password) {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      })
 
-  const data = await response.json()
+      const data = await response.json()
 
-  showToast(
-    data.message,
-    data.success ? 'success' : 'error'
-  )
+      if (!response.ok) {
+        showToast(getErrorMessage(data, 'Ошибка входа'), 'error')
+        return
+      }
 
-  if (data.success) {
-    setCurrentUser(data.user)
-    setIsModalOpen(false)
-    setIsProfileOpen(true)
+      showToast(data.message || 'Вход выполнен успешно', 'success')
+
+      if (data.success) {
+        setCurrentUser(data.user)
+        setIsModalOpen(false)
+        setIsProfileOpen(true)
+      }
+    } catch (error) {
+      showToast('Не удалось подключиться к серверу', 'error')
+    }
   }
-}
 
   return (
     <>
       <Navbar
-        openModal={openLoginModal}
-        currentUser={currentUser}
-        openProfile={() => setIsProfileOpen(true)}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        openChat={() => setIsChatOpen(true)}
-      />
+  openAdmin={() => setIsAdminOpen(true)}
+  openModal={openLoginModal}
+  currentUser={currentUser}
+  openProfile={() => setIsProfileOpen(true)}
+  searchQuery={searchQuery}
+  setSearchQuery={setSearchQuery}
+  openChat={() => setIsChatOpen(true)}
+  openAbout={() => setIsAboutOpen(true)}
+/>
 
       <Hero openChat={() => setIsChatOpen(true)} />
       <Stats />
       <Categories />
       <PopularCourses />
+<Catalog
+  coursesList={coursesList}
+  favoriteCourses={favoriteCourses}
+  toggleFavorite={toggleFavorite}
+  searchQuery={searchQuery}
+  setSearchQuery={setSearchQuery}
+/>
 
-      <Catalog
-        favoriteCourses={favoriteCourses}
-        toggleFavorite={toggleFavorite}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-      />
-
-      <CTA />
-      <Footer />
+      <CTA openChat={() => setIsChatOpen(true)} />
+      <Footer
+  openChat={() => setIsChatOpen(true)}
+  openAbout={() => setIsAboutOpen(true)}
+/>
 
       <LoginModal
         isOpen={isModalOpen}
@@ -139,26 +194,37 @@ async function handleLogin(email, password) {
       />
 
       <ProfileModal
-  isOpen={isProfileOpen}
-  onClose={() => setIsProfileOpen(false)}
-  user={currentUser}
-  onLogout={handleLogout}
-  favoriteCourses={favoriteCourses}
-/>
+        isOpen={isProfileOpen}
+        onClose={() => setIsProfileOpen(false)}
+        user={currentUser}
+        onLogout={handleLogout}
+        favoriteCourses={favoriteCourses}
+      />
 
-<Toast
-  message={toast.message}
-  type={toast.type}
-  onClose={() =>
-    setToast({
-      message: '',
-      type: 'success'
-    })
-  }
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        onClose={() =>
+          setToast({
+            message: '',
+            type: 'success'
+          })
+        }
+      />
+
+      <ChatBot
+        isOpen={isChatOpen}
+        onClose={() => setIsChatOpen(false)}
+      />
+      <AboutModal
+  isOpen={isAboutOpen}
+  onClose={() => setIsAboutOpen(false)}
 />
-<ChatBot
-  isOpen={isChatOpen}
-  onClose={() => setIsChatOpen(false)}
+<AdminPanel
+  isOpen={isAdminOpen}
+  onClose={() => setIsAdminOpen(false)}
+  coursesList={coursesList}
+  setCoursesList={setCoursesList}
 />
     </>
   )

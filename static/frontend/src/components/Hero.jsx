@@ -1,14 +1,14 @@
 import TechMarquee from './TechMarquee'
-
+import { motion } from 'framer-motion'
 function Hero({ openChat }) {
   return (
     <header className="py-20 px-8 md:px-20 flex flex-col lg:flex-row justify-between items-center gap-16 bg-purple-100 shadow-[0_20px_50px_rgba(168,85,247,0.2)] pb-12 transition-all duration-300">
 
       <div className="max-w-xl">
         <h1 className="text-6xl font-extrabold mb-6">
-          Найди свой{" "}
+          Стань востребованным{" "}
           <span className="text-purple-600">
-            идеальный IT-курс
+            IT-специалистом
           </span>
         </h1>
 
@@ -22,13 +22,25 @@ function Hero({ openChat }) {
         </p>
 
         <div className="flex gap-4">
-          <button className="bg-purple-600 text-white px-8 py-4 rounded-2xl font-bold hover:bg-gray-800 transition">
-            Найти курс →
-          </button>
+      <button
+  type="button"
+  onClick={() => {
+    const catalog = document.getElementById('catalog')
 
-         <button
+    if (catalog) {
+      catalog.scrollIntoView({
+        behavior: 'smooth'
+      })
+    }
+  }}
+  className="btn-primary bg-purple-500 text-gray-900 px-8 py-4 rounded-2xl font-bold hover:bg-gray-400 transition"
+>
+  Найти курс →
+</button>
+
+   <button
   onClick={openChat}
-  className="bg-gray-100 text-gray-900 px-8 py-4 rounded-2xl font-bold hover:bg-gray-400 transition"
+  className="btn-secondary bg-gray-100 text-gray-900 px-8 py-4 rounded-2xl font-bold hover:bg-gray-400 transition"
 >
   Спросить ИИ
 </button>
