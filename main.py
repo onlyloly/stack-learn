@@ -32,16 +32,16 @@ CREATE TABLE IF NOT EXISTS users (
     name TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
     password_hash TEXT NOT NULL,
-    role TEXT NOT NULL,
-    avatar TEXT,
-    created_at TEXT,
-    courses_enrolled TEXT DEFAULT '',
-    favorites TEXT DEFAULT ''
+    role TEXT NOT NULL
 )
 """)
 
-conn.commit()
+cursor.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS avatar TEXT")
+cursor.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS created_at TEXT")
+cursor.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS courses_enrolled TEXT DEFAULT ''")
+cursor.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS favorites TEXT DEFAULT ''")
 
+conn.commit()
 conn.commit()
 from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.middleware.cors import CORSMiddleware
