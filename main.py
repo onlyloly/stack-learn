@@ -2,7 +2,13 @@
 StackLearn API — Professional FastAPI Backend
 Версия 2.0 | Улучшения безопасности, архитектуры и авторизации
 """
- 
+import os
+import psycopg2
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+conn = psycopg2.connect(DATABASE_URL)
+cursor = conn.cursor()
 import os
 import uuid
 import hashlib
@@ -10,7 +16,17 @@ import hmac
 import secrets
 from datetime import datetime, timedelta
 from typing import Optional
- 
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS users (
+    id TEXT PRIMARY KEY,
+    name TEXT,
+    email TEXT UNIQUE,
+    password_hash TEXT,
+    role TEXT
+)
+""")
+
+conn.commit()
 from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
