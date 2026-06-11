@@ -2,29 +2,45 @@
 StackLearn API — Professional FastAPI Backend
 Версия 2.0 | Улучшения безопасности, архитектуры и авторизации
 """
-import os
-import psycopg2
 
-DATABASE_URL = os.getenv("DATABASE_URL")
-
-conn = psycopg2.connect(DATABASE_URL)
-cursor = conn.cursor()
 import os
 import uuid
 import hashlib
 import hmac
 import secrets
+import psycopg2
+
 from datetime import datetime, timedelta
 from typing import Optional
+
+from fastapi import FastAPI, HTTPException, Depends, status
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from pydantic import BaseModel, EmailStr, field_validator
+from dotenv import load_dotenv
+
+load_dotenv()
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+conn = psycopg2.connect(DATABASE_URL)
+cursor = conn.cursor()
+
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS users (
     id TEXT PRIMARY KEY,
-    name TEXT,
-    email TEXT UNIQUE,
-    password_hash TEXT,
-    role TEXT
+    name TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    password_hash TEXT NOT NULL,
+    role TEXT NOT NULL,
+    avatar TEXT,
+    created_at TEXT,
+    courses_enrolled TEXT DEFAULT '',
+    favorites TEXT DEFAULT ''
 )
 """)
+
+conn.commit()
 
 conn.commit()
 from fastapi import FastAPI, HTTPException, Depends, status
