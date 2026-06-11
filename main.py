@@ -200,36 +200,112 @@ def health():
  
 @app.post("/api/auth/register", tags=["Auth"])
 def register(data: RegisterRequest):
-    # Проверка дубликата email
-    for user in USERS_DB.values():
-        if user["email"].lower() == data.email.lower():
-            raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
-                detail="Пользователь с такой почтой уже существует",
-            )
- 
+    email = data.email.lower()
     user_id = str(uuid.uuid4())
-    USERS_DB[user_id] = {
-        "id": user_id,
-        "name": data.name.strip(),
-        "email": data.email.lower(),
-        "password_hash": hash_password(data.password),
-        "role": "user",
-        "avatar": None,
-        "created_at": datetime.utcnow().isoformat(),
-        "courses_enrolled": [],
-        "favorites": [],
-    }
- 
+    created_at = datetime.utcnow().isoformat()
+
+    cursor.execute(
+        "SELECT id FROM users WHERE email = %s",
+        (email,)
+    )
+
+    existing_user = cursor.fetchone()
+
+    if existing_user:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Пользователь с такой почтой уже существует",
+        )
+
+    cursor.execute(
+        """
+        INSERT INTO users (
+            id,
+            name,
+            email,
+            password_hash,
+            role,
+            avatar,
+            created_at,
+            courses_enrolled,
+            favorites
+        )
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """,
+        (
+            user_id,
+            data.name.strip(),
+            email,
+            hash_password(data.password),
+            "user",
+            None,
+            created_at,
+            "",
+            ""
+        )
+    )
+
+    conn.commit()
+
     return {"success": True, "message": "Аккаунт создан. Теперь войдите."}
- 
- 
+
+
 @app.post("/api/auth/login", tags=["Auth"])
 def login(data: LoginRequest):
-    user = next(
-        (u for u in USERS_DB.values() if u["email"].lower() == data.email.lower()),
-        None,
+    email = data.email.lower()
+
+    cursor.execute(
+        """
+        SELECT
+            id,
+            name,
+            email,
+            password_hash,
+            role,
+            avatar,
+            created_at,
+            courses_enrolled,
+            favorites
+        FROM users
+        WHERE email = %s
+        """,
+        (email,)
     )
+
+    row = cursor.fetchone()
+
+    if not row:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Неверная почта или пароль",
+        )
+
+    user = {
+        "id": row[0],
+        "name": row[1],
+        "email": row[2],
+        "password_hash": row[3],
+        "role": row[4],
+        "avatar": row[5],
+        "created_at": row[6],
+        "courses_enrolled": row[7].split(",") if row[7] else [],
+        "favorites": row[8].split(",") if row[8] else [],
+    }
+
+    if not verify_password(data.password, user["password_hash"]):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Неверная почта или пароль",
+        )
+
+    token = create_token(user["id"])
+    SESSIONS[token] = user["id"]
+
+    return {
+        "success": True,
+        "token": token,
+        "user": UserPublic(**{k: user[k] for k in UserPublic.model_fields}),
+    }
  
     # Используем постоянное время для защиты от timing attacks
     if not user or not verify_password(data.password, user["password_hash"]):
