@@ -6,3 +6,5 @@ gigachat
 python-dotenv
 pydantic[email]
 email-validator
+psycopg[binary]
+sqlalchemy
