@@ -8,3 +8,4 @@ pydantic[email]
 email-validator
 psycopg[binary]
 sqlalchemy
+psycopg2-binary
