@@ -9,3 +9,4 @@ email-validator
 psycopg[binary]
 sqlalchemy
 psycopg2-binary
+pip freeze > requirements.txt
