@@ -237,7 +237,7 @@ def register(data: RegisterRequest):
             data.name.strip(),
             email,
             hash_password(data.password),
-            "admin",
+            "user",
             None,
             created_at,
             "",
