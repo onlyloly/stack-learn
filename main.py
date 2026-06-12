@@ -442,3 +442,21 @@ def chat(data: ChatRequest):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Ошибка AI ассистента: {str(error)}",
         )
+@app.get("/api/debug/users")
+def debug_users():
+    cursor.execute("""
+        SELECT id, name, email, role
+        FROM users
+        ORDER BY created_at DESC
+    """)
+    rows = cursor.fetchall()
+
+    return [
+        {
+            "id": row[0],
+            "name": row[1],
+            "email": row[2],
+            "role": row[3]
+        }
+        for row in rows
+    ]
