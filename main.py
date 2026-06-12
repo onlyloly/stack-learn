@@ -445,7 +445,7 @@ def chat(data: ChatRequest):
 @app.get("/api/debug/users")
 def debug_users():
     cursor.execute("""
-        SELECT id, name, email, role
+        SELECT id, name, email, role, created_at
         FROM users
         ORDER BY created_at DESC
     """)
@@ -456,7 +456,8 @@ def debug_users():
             "id": row[0],
             "name": row[1],
             "email": row[2],
-            "role": row[3]
+            "role": row[3],
+            "created_at": row[4],
         }
         for row in rows
     ]
