@@ -1,7 +1,6 @@
 """
 StackLearn API — FastAPI Backend
 """
-
 import os
 import uuid
 import hashlib
@@ -11,7 +10,6 @@ import psycopg2
 
 from datetime import datetime
 from typing import Optional
-
 from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
@@ -25,14 +23,10 @@ GIGACHAT_CREDENTIALS = os.getenv("GIGACHAT_CREDENTIALS")
 
 conn = psycopg2.connect(DATABASE_URL)
 cursor = conn.cursor()
-
-
 def hash_password(password: str) -> str:
     salt = secrets.token_hex(16)
     key = hashlib.pbkdf2_hmac("sha256", password.encode(), salt.encode(), 260_000)
     return f"{salt}${key.hex()}"
-
-
 def verify_password(plain: str, hashed: str) -> bool:
     try:
         salt, key_hex = hashed.split("$")
@@ -40,12 +34,8 @@ def verify_password(plain: str, hashed: str) -> bool:
         return hmac.compare_digest(expected, bytes.fromhex(key_hex))
     except Exception:
         return False
-
-
 def create_token(user_id: str) -> str:
     return f"{user_id}:{secrets.token_hex(32)}"
-
-
 def init_db():
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS users (
@@ -65,16 +55,11 @@ def init_db():
     cursor.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS created_at TEXT")
     cursor.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS courses_enrolled TEXT DEFAULT ''")
     cursor.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS favorites TEXT DEFAULT ''")
-
     conn.commit()
-
-
 def seed_admin():
     admin_email = "admin111@stacklearn.ru"
-
     cursor.execute("SELECT id FROM users WHERE email = %s", (admin_email,))
     admin = cursor.fetchone()
-
     if admin:
         cursor.execute(
             """
@@ -119,8 +104,6 @@ def seed_admin():
         )
 
     conn.commit()
-
-
 init_db()
 seed_admin()
 
@@ -131,7 +114,6 @@ app = FastAPI(
     description="Бэкенд для образовательной платформы StackLearn",
     version="2.0.0",
 )
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -145,10 +127,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 security = HTTPBearer(auto_error=False)
-
-
 class RegisterRequest(BaseModel):
     name: str
     email: EmailStr
@@ -168,13 +147,9 @@ class RegisterRequest(BaseModel):
         if len(v) < 8:
             raise ValueError("Пароль должен быть не менее 8 символов")
         return v
-
-
 class LoginRequest(BaseModel):
     email: EmailStr
     password: str
-
-
 class ChatRequest(BaseModel):
     message: str
 
@@ -187,8 +162,6 @@ class ChatRequest(BaseModel):
         if len(v) > 1000:
             raise ValueError("Сообщение слишком длинное")
         return v
-
-
 class UserPublic(BaseModel):
     id: str
     name: str
@@ -198,8 +171,6 @@ class UserPublic(BaseModel):
     created_at: str
     courses_enrolled: list[str]
     favorites: list[str]
-
-
 def get_user_by_id(user_id: str):
     cursor.execute(
         """
@@ -227,7 +198,6 @@ def get_user_by_id(user_id: str):
         "favorites": row[8].split(",") if row[8] else [],
     }
 
-
 def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)) -> dict:
     if not credentials:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Не авторизован")
@@ -244,7 +214,6 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Пользователь не найден")
 
     return user
-
 
 @app.get("/", tags=["System"])
 def root():
@@ -271,7 +240,6 @@ def register(data: RegisterRequest):
 
     user_id = str(uuid.uuid4())
     created_at = datetime.utcnow().isoformat()
-
     cursor.execute(
         """
         INSERT INTO users (
@@ -301,14 +269,11 @@ def register(data: RegisterRequest):
     )
 
     conn.commit()
-
     return {"success": True, "message": "Аккаунт создан. Теперь войдите."}
-
 
 @app.post("/api/auth/login", tags=["Auth"])
 def login(data: LoginRequest):
     email = data.email.lower()
-
     cursor.execute(
         """
         SELECT id, name, email, password_hash, role, avatar, created_at, courses_enrolled, favorites
@@ -353,7 +318,6 @@ def login(data: LoginRequest):
         "user": UserPublic(**{k: user[k] for k in UserPublic.model_fields}),
     }
 
-
 @app.post("/api/auth/logout", tags=["Auth"])
 def logout(credentials: HTTPAuthorizationCredentials = Depends(security)):
     if credentials:
@@ -361,11 +325,9 @@ def logout(credentials: HTTPAuthorizationCredentials = Depends(security)):
 
     return {"success": True, "message": "Выход выполнен"}
 
-
 @app.get("/api/me", tags=["User"])
 def get_profile(current_user: dict = Depends(get_current_user)):
     return UserPublic(**{k: current_user[k] for k in UserPublic.model_fields})
-
 
 @app.post("/api/favorites/{course_id}", tags=["User"])
 def toggle_favorite(course_id: str, current_user: dict = Depends(get_current_user)):
@@ -384,9 +346,7 @@ def toggle_favorite(course_id: str, current_user: dict = Depends(get_current_use
     )
 
     conn.commit()
-
     return {"success": True, "action": action, "favorites": favorites}
-
 
 @app.post("/api/enroll/{course_id}", tags=["User"])
 def enroll(course_id: str, current_user: dict = Depends(get_current_user)):
@@ -405,7 +365,6 @@ def enroll(course_id: str, current_user: dict = Depends(get_current_user)):
     conn.commit()
 
     return {"success": True, "message": "Запись на курс выполнена", "enrolled": enrolled}
-
 
 @app.post("/api/chat", tags=["AI Chat"])
 def chat(data: ChatRequest):

@@ -56,6 +56,7 @@ function ProfileModal({ isOpen, onClose, user, onLogout, favoriteCourses }) {
             </p>
           </div>
 
+         {user?.role !== 'admin' && (
           <div className="bg-gray-50 p-5 rounded-3xl">
             <p className="text-gray-400 text-sm font-bold mb-1">
               Уровень обучения
@@ -64,6 +65,7 @@ function ProfileModal({ isOpen, onClose, user, onLogout, favoriteCourses }) {
               Начинающий
             </p>
           </div>
+)}
 
         </div>
 

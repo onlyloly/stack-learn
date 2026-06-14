@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@supabase/supabase-js": "^2.108.1",
     "aos": "^2.3.4",
     "react-draggable": "^4.6.0"
   }
