@@ -75,5 +75,4 @@ function Categories() {
     </section>
   )
 }
-
 export default Categories

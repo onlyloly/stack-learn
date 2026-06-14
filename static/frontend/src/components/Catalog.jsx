@@ -1,10 +1,8 @@
 import { useState } from 'react'
-
 function Catalog({ coursesList, favoriteCourses, toggleFavorite, searchQuery, setSearchQuery }) {
   const [selectedCategories, setSelectedCategories] = useState([])
   const [selectedLevels, setSelectedLevels] = useState([])
   const [sort, setSort] = useState('default')
-
   const categories = [
     'Frontend',
     'Backend',
@@ -13,13 +11,11 @@ function Catalog({ coursesList, favoriteCourses, toggleFavorite, searchQuery, se
     'Mobile',
     'Cybersecurity'
   ]
-
   const levels = [
     'Новичок',
     'Middle',
     'PRO'
   ]
-
   const colors = {
     Frontend: 'bg-blue-600',
     Backend: 'bg-green-600',
@@ -28,7 +24,6 @@ function Catalog({ coursesList, favoriteCourses, toggleFavorite, searchQuery, se
     Mobile: 'bg-pink-500',
     Cybersecurity: 'bg-gray-800'
   }
-
   const inputClass =
     'w-full bg-gray-50 p-4 rounded-2xl border border-gray-100 outline-none font-medium text-sm'
 
@@ -59,7 +54,6 @@ function Catalog({ coursesList, favoriteCourses, toggleFavorite, searchQuery, se
       selectedCategories.includes(course.category)
     )
   }
-
   if (selectedLevels.length > 0) {
     filteredCourses = filteredCourses.filter(course =>
       selectedLevels.includes(course.level)
@@ -74,15 +68,12 @@ function Catalog({ coursesList, favoriteCourses, toggleFavorite, searchQuery, se
       course.level.toLowerCase().includes(searchQuery.toLowerCase())
     )
   }
-
   if (sort === 'price-asc') {
     filteredCourses.sort((a, b) => a.price - b.price)
   }
-
   if (sort === 'price-desc') {
     filteredCourses.sort((a, b) => b.price - a.price)
   }
-
   return (
     <section id="catalog" className="max-w-7xl mx-auto pt-24 pb-10 px-8 scroll-mt-28">
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">

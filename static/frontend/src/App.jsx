@@ -156,33 +156,33 @@ const [isAdminOpen, setIsAdminOpen] = useState(false)
   return (
     <>
       <Navbar
-  openAdmin={() => setIsAdminOpen(true)}
-  openModal={openLoginModal}
-  currentUser={currentUser}
-  openProfile={() => setIsProfileOpen(true)}
-  searchQuery={searchQuery}
-  setSearchQuery={setSearchQuery}
-  openChat={() => setIsChatOpen(true)}
-  openAbout={() => setIsAboutOpen(true)}
-/>
+      openAdmin={() => setIsAdminOpen(true)}
+      openModal={openLoginModal}
+      currentUser={currentUser}
+      openProfile={() => setIsProfileOpen(true)}
+      searchQuery={searchQuery}
+      setSearchQuery={setSearchQuery}
+      openChat={() => setIsChatOpen(true)}
+      openAbout={() => setIsAboutOpen(true)}
+      />
 
       <Hero openChat={() => setIsChatOpen(true)} />
       <Stats />
       <Categories />
       <PopularCourses />
-<Catalog
-  coursesList={coursesList}
-  favoriteCourses={favoriteCourses}
-  toggleFavorite={toggleFavorite}
-  searchQuery={searchQuery}
-  setSearchQuery={setSearchQuery}
-/>
+      <Catalog
+        coursesList={coursesList}
+        favoriteCourses={favoriteCourses}
+        toggleFavorite={toggleFavorite}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+      />
 
       <CTA openChat={() => setIsChatOpen(true)} />
       <Footer
   openChat={() => setIsChatOpen(true)}
   openAbout={() => setIsAboutOpen(true)}
-/>
+      />
 
       <LoginModal
         isOpen={isModalOpen}
